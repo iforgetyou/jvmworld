@@ -1,7 +1,5 @@
 package com.zy17.world;
 
-import com.zy17.world.alive.AThing;
-import com.zy17.world.tools.SpringUtils;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
