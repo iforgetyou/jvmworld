@@ -1,3 +1,9 @@
+
 banner:
   image:
     location: image/badRobot.jpg
+
+server:
+  port: 8090
+logging.com.zy17:
+  level: debug

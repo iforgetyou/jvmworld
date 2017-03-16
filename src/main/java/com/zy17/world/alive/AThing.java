@@ -2,7 +2,8 @@ package com.zy17.world.alive;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
-import com.zy17.world.energy.Energy;
+import com.zy17.world.energy.Behave;
+import com.zy17.world.tools.ReflectionUtil;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -21,13 +23,45 @@ import java.util.UUID;
 @Component
 @Scope(SCOPE_PROTOTYPE)
 public class AThing implements Runnable {
+  public static final int MAX_AGE = 1000;
   private UUID id = UUID.randomUUID();
-  private String name;
+  /**
+   * 调用成功次数
+   */
+  private long age;
+  /**
+   * 失败原因
+   */
+  private Exception dead_exception;
+  /**
+   *
+   */
+  Method randomMethod;
+
+  Class outputClass;
+
   @Autowired
-  Energy energy;
+  ReflectionUtil util;
+  @Autowired
+  Behave behave;
 
   public void run() {
-    log.info("I'm {},my id is:{}", energy.getT(Integer.class), getId());
+    try {
+      randomMethod = util.getRandomMethod();
+      outputClass = randomMethod.getReturnType();
+
+      while (age < MAX_AGE) {
+        behave.act(randomMethod);
+        age++;
+      }
+    } catch (Exception e) {
+      dead_exception = e;
+      log.warn("{} dead for:{},age:{},method:{}", getId(), dead_exception, age, randomMethod);
+    } finally {
+      if (age > 0) {
+        log.info("{} lived:{}", getId(), age);
+      }
+    }
   }
 
 }

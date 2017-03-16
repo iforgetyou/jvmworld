@@ -16,7 +16,7 @@ public class Creator {
   @Autowired
   ApplicationContext context;
 
-  @Scheduled(cron = "0/5 * *  * * ? ")   //每5秒执行一次
+  @Scheduled(cron = "* * * * * ? ")   //每1秒执行一次
   public void start() {
     AThing thing = context.getBean(AThing.class);
     new Thread(thing).start();
