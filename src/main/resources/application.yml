@@ -7,3 +7,13 @@ server:
   port: 8090
 logging.com.zy17:
   level: debug
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/jvm?characterEncoding=utf-8
+    username: root
+    password: test
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update

@@ -13,8 +13,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class WorldEntry {
   public static void main(String[] args) {
-//    AThing thing = SpringUtils.getBean(AThing.class);
-//    new Thread(thing).start();
     SpringApplication.run(WorldEntry.class);
   }
 }
