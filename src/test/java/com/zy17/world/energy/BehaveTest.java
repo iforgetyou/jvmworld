@@ -1,10 +1,14 @@
 package com.zy17.world.energy;
 
+import com.zy17.world.tools.ReflectionUtil;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 2017/3/15 zy17
@@ -14,6 +18,8 @@ public class BehaveTest extends BaseSpringTest {
   Behave behave;
   @Autowired
   Energy energy;
+  @Autowired
+  ReflectionUtil util;
 
   @Test
   public void act() throws Exception {
@@ -42,7 +48,7 @@ public class BehaveTest extends BaseSpringTest {
   }
 
   @Test
-  public void objectEquere(){
+  public void objectEquere() {
     Method[] methods = Object.class.getMethods();
     for (Method method : methods) {
       try {
@@ -52,6 +58,13 @@ public class BehaveTest extends BaseSpringTest {
         System.out.println(e);
       }
     }
+  }
+
+  @Test
+  public void test() {
+    Class<?> classImplement = util.findClassImplement(List.class);
+    System.out.println(classImplement);
+
   }
 
 }

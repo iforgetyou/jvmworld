@@ -1,7 +1,10 @@
 package com.zy17.world.energy;
 
+import com.zy17.world.tools.ReflectionUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Constructor;
@@ -13,6 +16,8 @@ import java.util.Random;
 @Slf4j
 @Component
 public class RandomEnergy implements Energy {
+  @Autowired
+  ReflectionUtil util;
   Random random = new Random();
 
   public Object getT(Class<?> clazz) {
@@ -44,6 +49,11 @@ public class RandomEnergy implements Energy {
     }
     if (clazz == byte[].class) {
       return getRandomStr().getBytes();
+    }
+    if (clazz.isInterface()) {
+      // 需要接口的一个实现类
+      Class<?> classImplement = util.findClassImplement(clazz);
+      return newInstanceByConstructorNewInstance(classImplement);
     }
 
     if (clazz instanceof Object) {

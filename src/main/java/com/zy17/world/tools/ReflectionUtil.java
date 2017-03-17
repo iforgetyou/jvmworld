@@ -26,9 +26,9 @@ public class ReflectionUtil {
   private Random random = new Random(System.currentTimeMillis());
   private List<Class> list = new ArrayList<Class>();
 
-  String[] packages = {"java.lang","java.math"};
+  String[] packages = {"java.lang", "java.math", "java.net", "java.nio", "java.time", "java.util", "java.text"};
 
-  public List<Class> getAllClasses() throws Exception {
+  public List<Class> getAllClasses() {
     if (list.size() == 0) {
       URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
 
@@ -72,12 +72,25 @@ public class ReflectionUtil {
     return list;
   }
 
-  public Class<?> getRandomClass() throws Exception {
+  public Class<?> findClassImplement(Class aInterface) {
+    if (!aInterface.isInterface()) {
+      return null;
+    }
+    List<Class> allClasses = getAllClasses();
+    for (Class aClass : allClasses) {
+      if (aInterface.isAssignableFrom(aClass) && !aInterface.equals(aClass)) {
+        return aClass;
+      }
+    }
+    return null;
+  }
+
+  public Class<?> getRandomClass() {
     List<Class> allClasses = getAllClasses();
     return allClasses.get(random.nextInt(allClasses.size()));
   }
 
-  public Method getRandomMethod() throws Exception {
+  public Method getRandomMethod() {
     Class<?> randomClass = getRandomClass();
     Method[] methods = randomClass.getMethods();
 //    Set<Method> allMethods = ReflectionUtils.getAllMethods(randomClass);
